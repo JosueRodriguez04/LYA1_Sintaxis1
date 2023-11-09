@@ -193,8 +193,23 @@ namespace LYA1_Sintaxis1
                     throw new Error("Lexico: La cadena no se ha cerrado", log);
                 }
             }
-            setContenido(buffer);
-            log.WriteLine(getContenido() + " = " + getClasificacion());
+            else
+            {
+                setContenido(buffer);
+                if (getClasificacion() == Tipos.Identificador)
+                {
+                    switch (getContenido())
+                    {
+                        case "char":
+                        case "int":
+                        case "float":
+                            setClasificacion(Tipos.TipoDatos);
+                            break;
+                    }
+                }
+                log.WriteLine(getContenido() + " = " + getClasificacion());
+            }
+
         }
         public bool FinArchivo()
         {
