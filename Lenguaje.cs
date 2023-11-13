@@ -3,17 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+/*
+    Requerimiento 1: Printf -> printf(cadena(, Identificador)?);
+    Requerimiento 2: Scanf -> scanf(cadena,&Identificador);
+*/
+
 namespace LYA1_Sintaxis1
 {
     public class Lenguaje : Sintaxis
     {
         public Lenguaje()
         {
-
         }
         public Lenguaje(string nombre) : base(nombre)
         {
-
         }
         //Programa  -> Librerias? Variables? Main
         public void Programa()
@@ -40,24 +43,34 @@ namespace LYA1_Sintaxis1
                 match(".");
                 match("h");
             }
-            match(">");  // nextToken
+            match(">");
             if (getContenido() == "#")
             {
                 Librerias();
             }
-
         }
-        //Variables -> tipo_dato Lista_identificadores; Variables?
+        //Variables -> tipoDato listaIdentificadores; Variables?
         private void Variables()
         {
-
+            match(Tipos.TipoDatos);
+            listaIdentificadores();
+            match(";");
+            if (getClasificacion() == Tipos.TipoDatos)
+            {
+                Variables();
+            }
         }
-        //listaIdentificadores -> identificador (,listaIdentificadores)?
+        //listaIdentificadores -> Identificador (,listaIdentificadores)?
         private void listaIdentificadores()
         {
-
+            match(Tipos.Identificador);
+            if (getContenido() == ",")
+            {
+                match(",");
+                listaIdentificadores();
+            }
         }
-        //Bloque de instrucciones -> {lista de intrucciones?}
+        //bloqueInstrucciones -> { listaIntrucciones? }
         private void bloqueInstrucciones()
         {
             match("{");
@@ -71,16 +84,62 @@ namespace LYA1_Sintaxis1
         private void ListaInstrucciones()
         {
             Instruccion();
-            if(getContenido() != "}")
+            if (getContenido() != "}")
             {
                 ListaInstrucciones();
             }
         }
-        //Instruccion -> Printf | Scanf | If | While | do while | For | Switch | Asignacion
+        //Instruccion -> Printf | Scanf | If | While | do while | For | Asignacion
         private void Instruccion()
         {
-
+            if (getContenido() == "printf")
+            {
+                Printf();
+            }
+            else if (getContenido() == "scanf")
+            {
+                Scanf();
+            }
+            else if (getContenido() == "if")
+            {
+                If();
+            }
+            else if (getContenido() == "while")
+            {
+                While();
+            }
+            else if (getContenido() == "do")
+            {
+                Do();
+            }
+            else if (getContenido() == "for")
+            {
+                For();
+            }
+            else
+            {
+                Asignacion();
+            }
         }
+        //Printf -> printf(cadena);
+        private void Printf()
+        {
+            match("printf");
+            match("(");
+            match(Tipos.Cadena);
+            match(")");
+            match(";");
+        }
+        //Scanf -> scanf(cadena);
+        private void Scanf()
+        {
+            match("scanf");
+            match("(");
+            match(Tipos.Cadena);
+            match(")");
+            match(";");
+        }
+
         //Asignacion -> identificador = cadena | Expresion;
         private void Asignacion()
         {
@@ -116,17 +175,7 @@ namespace LYA1_Sintaxis1
         {
 
         }
-        //Printf -> printf(cadena);
-        private void Printf()
-        {
-
-        }
-        //Scanf -> scanf(cadena);
-        private void Scanf()
-        {
-
-        }
-        //Main      -> void main() Bloque de instrucciones
+        //Main      -> void main() bloqueInstrucciones
         private void Main()
         {
             match("void");
@@ -134,7 +183,6 @@ namespace LYA1_Sintaxis1
             match("(");
             match(")");
             bloqueInstrucciones();
-
         }
         //Expresion -> Termino MasTermino
         private void Expresion()
