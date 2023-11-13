@@ -14,5 +14,8 @@ namespace LYA1_Sintaxis1
         public Error(string mensaje): base(mensaje)
         {
         }
+        public Error(string mensaje, int linea): base(mensaje + " en la linea "+linea)
+        {
+        }
     }
 }

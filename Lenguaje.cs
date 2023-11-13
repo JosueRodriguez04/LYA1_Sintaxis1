@@ -6,6 +6,12 @@ using System.Threading.Tasks;
 /*
     Requerimiento 1: Printf -> printf(cadena(, Identificador)?);
     Requerimiento 2: Scanf -> scanf(cadena,&Identificador);
+    Requerimiento 3: Agregar a la Asignacion +=, -=, *=, /=, %= 
+                      Ejemplo:
+                      Identificador IncTermino Expresion;
+                      Identificador IncFactor Expresion;
+    Requerimiento 4: Agregar el else optativo al if
+    Requerimiento 5: indicar que el numero de linea de los errores                   
 */
 
 namespace LYA1_Sintaxis1
@@ -139,10 +145,28 @@ namespace LYA1_Sintaxis1
             match(")");
             match(";");
         }
-        //Asignacion -> identificador = cadena | Expresion;
+        //Asignacion -> Identificador (++ | --) | (= Expresion);
         private void Asignacion()
         {
+            match(Tipos.Identificador);
+            if (getClasificacion() == Tipos.OpTermino)
+            {
+                match(Tipos.OpTermino);
+            }
+            else if (getClasificacion() == Tipos.IncTermino)
+            {
 
+            }
+            else if (getClasificacion() == Tipos.IncFactor)
+            {
+
+            }
+            else
+            {
+                match("=");
+                Expresion();
+            }
+            match(";");
         }
         //While -> while(Condicion) bloque de instrucciones | instruccion
         private void While()
@@ -167,12 +191,25 @@ namespace LYA1_Sintaxis1
         //Condicion -> Expresion operador relacional Expresion
         private void Condicion()
         {
-
+            Expresion();
+            match(Tipos.OpRelacional);
+            Expresion();
         }
-        //If -> if(Condicion) bloque de instrucciones (else bloque de instrucciones)?
+        //If -> if(Condicion) instruccion | bloqueInstrucciones (else instruccion | bloqueInstrucciones)?
         private void If()
         {
-
+            match("if");
+            match("(");
+            Condicion();
+            match(")");
+            if(getContenido() == "{")
+            {
+                bloqueInstrucciones();
+            }
+            else
+            {
+                Instruccion();
+            }
         }
         //Main      -> void main() bloqueInstrucciones
         private void Main()
@@ -186,27 +223,50 @@ namespace LYA1_Sintaxis1
         //Expresion -> Termino MasTermino
         private void Expresion()
         {
-
+            Termino();
+            MasTermino();
         }
         //MasTermino -> (OperadorTermino Termino)?
         private void MasTermino()
         {
-
+            if (getClasificacion() == Tipos.OpTermino)
+            {
+                match(Tipos.OpTermino);
+                Termino();
+            }
         }
         //Termino -> Factor PorFactor
         private void Termino()
         {
-
+            Factor();
+            PorFactor();
         }
         //PorFactor -> (OperadorFactor Factor)?
         private void PorFactor()
         {
-
+            if (getClasificacion() == Tipos.OpFactor)
+            {
+                match(Tipos.OpFactor);
+                Factor();
+            }
         }
         //Factor -> numero | identificador | (Expresion)
         private void Factor()
         {
-
+            if (getClasificacion() == Tipos.Numero)
+            {
+                match(Tipos.Numero);
+            }
+            else if (getClasificacion() == Tipos.Identificador)
+            {
+                match(Tipos.Identificador);
+            }
+            else
+            {
+                match("(");
+                Expresion();
+                match(")");
+            }
         }
     }
 }

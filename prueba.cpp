@@ -14,4 +14,18 @@ void main()
     printf("\n============");
     printf("\nRadio = ");
     scanf("%i");
+
+    radio = (3+5)*8-(10-4)/2;
+
+    z = (a+b)*c;
+
+    if((3+5)*8 > z)
+    {
+        printf("\nEs mayor");
+    }
+
+    if(radio % 2 == 0)
+    {
+        printf("\nRadio es par");
+    }
 }
