@@ -12,8 +12,8 @@ void main()
 {
     printf("\nHola mundo");
     printf("\n============");
-    printf("\nRadio = ");
-    scanf("%i");
+    printf("\nRadio = ",radio);
+    scanf("%i",&radio);
 
     radio = (3+5)*8-(10-4)/2;
 
@@ -27,5 +27,16 @@ void main()
     if(radio % 2 == 0)
     {
         printf("\nRadio es par");
+    }
+    multiplicacion *= (5+3);
+    suma += (3*8);
+
+    if(radio>0)
+    {
+        printf("\nRadio es positivo");
+    }
+    else
+    {
+        printf("\nRadio es negativo");
     }
 }

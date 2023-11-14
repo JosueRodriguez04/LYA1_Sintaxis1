@@ -127,21 +127,32 @@ namespace LYA1_Sintaxis1
                 Asignacion();
             }
         }
-        //Printf -> printf(cadena);
+        //Printf -> printf -> printf(cadena(, Identificador)?);
         private void Printf()
         {
             match("printf");
             match("(");
             match(Tipos.Cadena);
+            if (getContenido() == ",")
+            {
+                match(Tipos.Caracter);
+                match(Tipos.Identificador);
+            }
             match(")");
             match(";");
         }
-        //Scanf -> scanf(cadena);
+        //Scanf -> scanf -> scanf(cadena,&Identificador);
         private void Scanf()
         {
             match("scanf");
             match("(");
+
             match(Tipos.Cadena);
+
+            match(",");
+            match("&");
+            match(Tipos.Identificador);
+
             match(")");
             match(";");
         }
@@ -155,11 +166,14 @@ namespace LYA1_Sintaxis1
             }
             else if (getClasificacion() == Tipos.IncTermino)
             {
+                match(Tipos.IncTermino);
+                Expresion();
 
             }
             else if (getClasificacion() == Tipos.IncFactor)
             {
-
+                match(Tipos.IncFactor);
+                Expresion();
             }
             else
             {
@@ -202,13 +216,25 @@ namespace LYA1_Sintaxis1
             match("(");
             Condicion();
             match(")");
-            if(getContenido() == "{")
+            if (getContenido() == "{")
             {
                 bloqueInstrucciones();
             }
             else
             {
                 Instruccion();
+            }
+            if (getContenido() == "else")
+            {
+                match("else");
+                if (getContenido() == "{")
+                {
+                    bloqueInstrucciones();
+                }
+                else
+                {
+                    Instruccion();
+                }
             }
         }
         //Main      -> void main() bloqueInstrucciones

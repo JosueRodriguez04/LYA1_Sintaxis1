@@ -10,7 +10,7 @@ namespace LYA1_Sintaxis1
     {
         const int F = -1;
         const int E = -2;
-        int linea;
+        //int linea;
         private StreamReader archivo;
         protected StreamWriter log;
 
@@ -60,14 +60,14 @@ namespace LYA1_Sintaxis1
             archivo = new StreamReader("prueba.cpp");
             log = new StreamWriter("prueba.log");
             log.AutoFlush = true;
-            linea = 1;
+           // linea = 1;
         }
         public Lexico(string nombre)
         {
             archivo = new StreamReader(nombre);
             log = new StreamWriter("prueba.log");
             log.AutoFlush = true;
-            linea = 1;
+           // linea = 1;
         }
         public void Dispose()
         {
