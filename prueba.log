@@ -138,7 +138,7 @@ printf = Identificador
 ) = Caracter
 ; = FinSentencia
 } = LlaveFin
-multiplicacion = Identificador
+multiplicar = Identificador
 *= = IncFactor
 ( = Caracter
 5 = Numero
@@ -146,7 +146,7 @@ multiplicacion = Identificador
 3 = Numero
 ) = Caracter
 ; = FinSentencia
-suma = Identificador
+sumar = Identificador
 += = IncTermino
 ( = Caracter
 3 = Numero

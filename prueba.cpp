@@ -28,8 +28,8 @@ void main()
     {
         printf("\nRadio es par");
     }
-    multiplicacion *= (5+3);
-    suma += (3*8);
+    multiplicar *= (5+3);
+    sumar += (3*8);
 
     if(radio>0)
     {
@@ -39,4 +39,5 @@ void main()
     {
         printf("\nRadio es negativo");
     }
+
 }
