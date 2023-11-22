@@ -157,15 +157,17 @@ namespace LYA1_Sintaxis1
         private void Asignacion()
         {
             match(Tipos.Identificador);
-            if (getClasificacion() == Tipos.OpTermino)
+            if (getClasificacion() == Tipos.IncTermino)
             {
-                match(Tipos.OpTermino);
-            }
-            else if (getClasificacion() == Tipos.IncTermino)
-            {
-                match(Tipos.IncTermino);
-                Expresion();
-
+                if (getContenido() == "++" || getContenido() == "--")
+                {
+                    match(Tipos.IncTermino);
+                }
+                else
+                {
+                    match(Tipos.IncTermino);
+                    Expresion();
+                }
             }
             else if (getClasificacion() == Tipos.IncFactor)
             {
@@ -182,22 +184,65 @@ namespace LYA1_Sintaxis1
         //While -> while(Condicion) bloque de instrucciones | instruccion
         private void While()
         {
-
+            match("while");
+            match("(");
+            Condicion();
+            match(")");
+            if(getContenido() == "{")
+            {
+                bloqueInstrucciones();
+            }
+            else
+            {
+                Instruccion();
+            }
         }
         //Do -> do bloque de instrucciones | intruccion while(Condicion)
         private void Do()
         {
+            match("do");
+            if(getContenido() == "{")
+            {
+                bloqueInstrucciones();
+            }
+            else 
+            {
+                Instruccion();
+            }
+            match("while");
+            match("(");
+            Condicion();
+            match(")");
+            match(";");
 
         }
         //For -> for(Asignacion Condicion; Incremento) Bloque de instruccones | Intruccion 
         private void For()
         {
-
+            match("for");
+            match("(");
+            Asignacion();
+            Condicion();
+            match(";");
+            Incremento();
+            match(")");
+            if(getContenido() == "{")
+            {
+                bloqueInstrucciones();
+            }
+            else
+            {
+                Instruccion();
+            }
         }
         //Incremento -> Identificador ++ | --
         private void Incremento()
         {
-
+            match(Tipos.Identificador);
+            if(getClasificacion() == Tipos.IncTermino)
+            {
+                match(Tipos.IncTermino);
+            }
         }
         //Condicion -> Expresion operador relacional Expresion
         private void Condicion()
